@@ -1,0 +1,30 @@
+{
+  "short_name": "GithubSearch",
+  "name": "Github Search Repository",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "img/icon96.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icon96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icon96.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icon96.png",
+      "sizes": "196x196",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "index.html",
+  "theme_color": "#FF5722",
+  "background_color": "#FF0000"
+}

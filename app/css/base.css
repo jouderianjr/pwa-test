@@ -1,0 +1,12 @@
+/* Sorry for bug your framework google :x ; */
+.no-margin{
+	margin: 0px;
+}
+
+.md-subheader-inner{
+	padding-top: 0px !important;
+}
+
+.md-errors-spacer{
+	display: none;
+}

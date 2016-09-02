@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+		<meta name="viewport" content="initial-scale=1" />
+    <meta charset="utf-8">
+  	<meta name=theme-color content=#FF5722>
+  	<meta name=apple-mobile-web-app-capable content=yes>
+		<link rel=manifest href=manifest.json>  	  	
+		<link rel=apple-touch-icon href=img/icon96.png>
+  	<link rel=apple-touch-icon sizes=96x96 href=img/icon-96.png>
+  	<link rel=apple-touch-icon sizes=196x196 href=img/icon96.png>    
+    
+    <title>GitRepoSearch</title>
+	
+		<link rel="stylesheet" href="lib/angular-material/angular-material.min.css">
+		<link rel="stylesheet" href="css/base.css">
+
+		<script src="lib/angular/angular.min.js"></script>
+		<script src="lib/angular-animate/angular-animate.min.js"></script>
+		<script src="lib/angular-aria/angular-aria.min.js"></script>
+		<script src="lib/angular-messages/angular-messages.min.js"></script>
+		<script src="lib/angular-material/angular-material.min.js"></script>
+
+		<script src="js/app.module.js"></script>
+		<script src="js/app.controller.js"></script>
+		<script src="js/github/github.module.js"></script>
+		<script src="js/github/github.service.js"></script>
+  </head>
+  <body ng-controller="AppController as vm">
+	  <div layout="column" style="height:600px" ng-cloak>	
+	  	<md-toolbar md-scroll-shrink class="md-warn">
+	  		<div class="md-toolbar-tools">
+	  			<h2 class="md-flex">Progressive Github WebApp</h2>
+				</div>
+	  	</md-toolbar>
+			
+			<md-content flex layout-padding>
+				<form name="vm.search" novalidate ng-submit="vm.searchRepositories(vm.searchTerm)">
+					<md-input-container md-no-float class="no-margin md-block md-flex">
+			      <input ng-model="vm.searchTerm" type="text" placeholder="Digite o termo da busca" required>
+			    </md-input-container>
+		    </form>
+
+		    <div layout="row" layout-sm="column" layout-align="center end">
+		    	<md-progress-circular ng-show="vm.searching" md-diameter="48"></md-progress-circular>
+					
+					<md-list>	
+						<md-subheader class="md-no-sticky" ng-show="vm.totalItems">{{vm.totalItems}} Results</md-subheader>
+						<md-list-item class="md-2-line" ng-repeat="repository in vm.repositories">
+		          <img ng-src="{{repository.owner.avatar_url}}" class="md-avatar" />
+		          <div class="md-list-item-text">
+		            <h3>{{ repository.name }}</h3>
+		            <p>{{ repository.owner.login}}</p>
+		          </div>
+		        </md-list-item>
+					</md-list>	
+		    </div>
+			</md-content>	
+		</div>
+  </body>
+	<script>
+		if('serviceWorker' in navigator) {
+		  navigator.serviceWorker
+		           .register('/js/serviceWorker/sw.js')
+		           .then(function() { console.log("Service Worker Registered"); });
+		}
+	</script>	  
+</html>
+
+<!-- 1.92s sem sw -->
+<!-- 471ms com sm :o -->
+
+<!-- Local -->
+<!-- 474ms sem sw -->
+<!-- 60ms com sm :o -->
