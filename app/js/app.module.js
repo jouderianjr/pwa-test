@@ -1,3 +1,3 @@
 (function(){
-	angular.module('app', ['ngMaterial', 'github']);
+	angular.module('app', ['ngMaterial', 'github', 'LocalStorageModule']);
 })();

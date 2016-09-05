@@ -4,41 +4,58 @@
 	angular.module('app')
 	.controller('AppController', AppController);
 
-	AppController.$inject = ['$scope', 'GithubSearch'];
+	AppController.$inject = ['$scope', 'GithubSearch', '$window', '$mdToast'];
 
-	function AppController($scope, GithubSearch){
+	function AppController($scope, GithubSearch, $window, $mdToast){
 		var vm = this;
 
+		vm.openRepository = openRepository;
 		vm.repositories = [];
 		vm.searching = false;
 		vm.searchRepositories = searchRepositories;
-		vm.searchTerm = 'angular';
-		vm.totalItems;
-
 
 		init();
 
 		function init(){
 			vm.searching = false;
+
+			getLastSearch();			
 		}
 
+		function getLastSearch() {
+			var search = GithubSearch.getLastSearch();
+
+			if(search){
+				vm.searchTerm = search.config.params.q;
+				vm.totalItems = search.data.total_count;
+				vm.repositories = search.data.items;
+			}
+		}
+
+		function openRepository(url){
+			$window.open(url, '_blank');
+		}
+
+		function searchError(){
+			$mdToast.show(
+	      $mdToast.simple()
+	        .textContent('Error: You are Offline!')
+	        .toastClass('md-top')
+	        .hideDelay(5000)
+	    );
+		}
+
+		function searchSuccess(resp){
+			vm.repositories = resp.data.items;
+			vm.totalItems = resp.data.total_count;
+		}
+		
 		function searchRepositories(term){
 			vm.searching = true;
-			console.log('term = '+term);
 			GithubSearch.repositories(term)
-			.then(function(resp){
-				console.log('deu certo = '+resp.data.total_count);
-				console.log(resp.data);
-				vm.repositories = resp.data.items;
-				vm.totalItems = resp.data.total_count;
-			})
-			.catch(function(err){
-				console.log(err);
-				console.log('deu erro');
-			})
-			.finally(function(){
-				vm.searching = false;
-			});
+			.then(searchSuccess)
+			.catch(searchError)
+			.finally(function(){vm.searching = false;});
 		}
 	}
 })();

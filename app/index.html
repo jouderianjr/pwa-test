@@ -20,6 +20,7 @@
 		<script src="lib/angular-aria/angular-aria.min.js"></script>
 		<script src="lib/angular-messages/angular-messages.min.js"></script>
 		<script src="lib/angular-material/angular-material.min.js"></script>
+		<script src="lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
 
 		<script src="js/app.module.js"></script>
 		<script src="js/app.controller.js"></script>
@@ -37,14 +38,14 @@
 			<md-content flex layout-padding>
 				<form name="vm.search" novalidate ng-submit="vm.searchRepositories(vm.searchTerm)">
 					<md-input-container md-no-float class="no-margin md-block md-flex">
-			      <input ng-model="vm.searchTerm" type="text" placeholder="Digite o termo da busca" required>
+			      <input ng-model="vm.searchTerm" type="text" placeholder="Search repository by name" required>
 			    </md-input-container>
 		    </form>
 
 		    <div layout="row" layout-sm="column" layout-align="center end">
 		    	<md-progress-circular ng-show="vm.searching" md-diameter="48"></md-progress-circular>
 					
-					<md-list>	
+					<md-list ng-hide="vm.searching">	
 						<md-subheader class="md-no-sticky" ng-show="vm.totalItems">{{vm.totalItems}} Results</md-subheader>
 						<md-list-item class="md-2-line" ng-repeat="repository in vm.repositories">
 		          <img ng-src="{{repository.owner.avatar_url}}" class="md-avatar" />
@@ -59,11 +60,13 @@
 		</div>
   </body>
 	<script>
-		if('serviceWorker' in navigator) {
-		  navigator.serviceWorker
-		           .register('/js/serviceWorker/sw.js')
-		           .then(function() { console.log("Service Worker Registered"); });
-		}
+		window.addEventListener('load', function(){
+			if('serviceWorker' in navigator) {
+			  navigator.serviceWorker
+			           .register('/sw.js', {scope: '/'})
+			           .then(function() { console.log("Service Worker Registered"); });			
+			}
+		});	
 	</script>	  
 </html>
 
